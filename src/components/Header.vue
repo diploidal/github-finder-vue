@@ -29,29 +29,26 @@ export default {
     return {
       name: '',
       userInformation: {},
-      userRepositories: {}
+      userRepositories: {},
+      responseData: {}
     }
   },
   methods: {
     async handleRequest(name) {
       const API_LINK = `https://api.github.com/users`;
-      let requestData = {};
       const response = await fetch(`${API_LINK}/${name}`)
           if(!response.ok) {
-      requestData.response = response
-      console.log(requestData)
+      this.responseData = response
     } else {
-      response.json().then((data) => {
-        requestData.user = data;
-        requestData.response = response;
-      })
-      const repoResponse = await fetch(`${API_LINK}/${name}/repos`);
-      repoResponse.json().then((data) => {
-        requestData.repos = data;
-        requestData.response = response;
-        console.log(requestData);
-      })
-    }
+        response.json().then((data) => {
+          this.userInformation = data
+          this.responseData = response
+        })
+        const repoResponse = await fetch(`${API_LINK}/${name}/repos`);
+          repoResponse.json().then((data) => {
+          this.userRepositories = data
+        })
+      }
     }
   }
 }
