@@ -30,7 +30,7 @@ export default {
       name: '',
       userInformation: {},
       userRepositories: {},
-      responseData: {}
+      requestInformation: {}
     }
   },
   methods: {
@@ -38,11 +38,11 @@ export default {
       const API_LINK = `https://api.github.com/users`;
       const response = await fetch(`${API_LINK}/${name}`)
           if(!response.ok) {
-      this.responseData = response
+      this.requestInformation = response
     } else {
-        response.json().then((data) => {
-          this.userInformation = data
-          this.responseData = response
+      response.json().then((data) => {
+        this.userInformation = data
+        this.requestInformation = response; //TODO: investigate why response cant assign properly here
         })
         const repoResponse = await fetch(`${API_LINK}/${name}/repos`);
           repoResponse.json().then((data) => {
